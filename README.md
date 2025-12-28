@@ -34,7 +34,6 @@ Este microserviço é uma API REST responsável pelo gerenciamento de tarefas de
 - Java 17
 - Spring Boot
 - Spring Web (REST)
-- Spring Data JPA
 - Spring Security + JWT
 - Gradle
 - Banco de Dados: MongoDB
