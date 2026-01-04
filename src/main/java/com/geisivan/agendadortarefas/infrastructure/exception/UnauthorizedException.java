@@ -2,14 +2,15 @@ package com.geisivan.agendadortarefas.infrastructure.exception;
 
 import org.springframework.security.core.AuthenticationException;
 
-public class ResourceNotFoundException extends RuntimeException {
+public class UnauthorizedException extends AuthenticationException {
 
-    public ResourceNotFoundException(String message) {
+    public UnauthorizedException(String message) {
 
         super(message);
     }
 
-    public ResourceNotFoundException(String message, Throwable cause) {
+
+    public UnauthorizedException(String message, Throwable cause) {
 
         super(message, cause);
     }
