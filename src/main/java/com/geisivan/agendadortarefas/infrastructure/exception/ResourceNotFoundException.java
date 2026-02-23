@@ -1,16 +1,13 @@
 package com.geisivan.agendadortarefas.infrastructure.exception;
 
-import org.springframework.security.core.AuthenticationException;
+import org.springframework.http.HttpStatus;
 
-public class ResourceNotFoundException extends RuntimeException {
+public class ResourceNotFoundException extends ApiException {
 
     public ResourceNotFoundException(String message) {
-
-        super(message);
+        super(message, HttpStatus.NOT_FOUND);
     }
-
     public ResourceNotFoundException(String message, Throwable cause) {
-
-        super(message, cause);
+        super(message, HttpStatus.NOT_FOUND, cause);
     }
 }
