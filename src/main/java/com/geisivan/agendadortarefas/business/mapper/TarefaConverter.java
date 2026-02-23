@@ -1,6 +1,6 @@
 package com.geisivan.agendadortarefas.business.mapper;
 
-import com.geisivan.agendadortarefas.business.dto.TarefaDTO;
+import com.geisivan.agendadortarefas.business.dto.TarefasDTO;
 import com.geisivan.agendadortarefas.infrastructure.entity.TarefaEntity;
 import org.mapstruct.Mapper;
 
@@ -9,11 +9,11 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface TarefaConverter {
 
-    TarefaEntity paraTarefaEntity(TarefaDTO tarefaDTO);
+    TarefaEntity paraTarefaEntity(TarefasDTO TarefasDTO);
 
-    TarefaDTO paraTarefaDTO(TarefaEntity tarefaEntity);
+    TarefasDTO paraTarefasDTO(TarefaEntity tarefaEntity);
 
-    List<TarefaEntity> paraListaTarefaEntity(List<TarefaDTO> listaTarefaDTO);
+    List<TarefaEntity> paraListaTarefaEntity(List<TarefasDTO> listaTarefasDTO);
 
-    List<TarefaDTO> paraListaTarefaDTO(List<TarefaEntity> listaTarefaEntity);
+    List<TarefasDTO> paraListaTarefasDTO(List<TarefaEntity> listaTarefaEntity);
 }

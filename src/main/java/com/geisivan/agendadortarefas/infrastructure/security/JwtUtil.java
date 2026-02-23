@@ -27,6 +27,15 @@ public class JwtUtil {
         // Obtém o assunto (nome de usuário) das claims do token
         return extractClaims(token).getSubject();
     }
+    // Método utilitário que Remove "Bearer " se estiver presente (maiúsculas/minúsculas)
+    public String extrairEmailDoToken(String token) {
+        String tokenLimpo = (token != null && token.toLowerCase().startsWith("bearer "))
+                ? token.substring(7)
+                : token;
+
+        // Retorna o username (e-mail) extraído do token
+        return extractUsername(tokenLimpo);
+    }
 
     // Verifica se o token JWT está expirado
     public boolean isTokenExpired(String token) {
