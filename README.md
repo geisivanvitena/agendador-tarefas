@@ -1,86 +1,133 @@
-# Microserviço de Agendamento de Tarefas (ms-tarefas) - API REST
+# Microserviço - Agendador de Tarefas (ms-tarefas)
+## Sobre o Projeto
 
-Este microserviço é uma API REST responsável pelo gerenciamento de tarefas de usuários, incluindo criação, atualização, exclusão, listagem e controle de status das tarefas. Ele se integra com o microserviço de usuários (ms-usuarios) para validação de autenticação e permissões via JWT.
+O ms-tarefas é um microserviço responsável pelo gerenciamento de tarefas dos usuários do sistema.
 
-## Responsabilidades
+Ele permite criar, atualizar, excluir e controlar o status das tarefas, garantindo segurança através da validação de tokens JWT emitidos pelo microserviço de usuários.
 
-- Expor endpoints REST para gerenciamento de tarefas
+Este serviço integra-se à arquitetura de microserviços do sistema e pode ser executado individualmente ou via container Docker.
 
-- Cadastro, atualização e manutenção de tarefas
+##
 
-- Validação de permissões via JWT
+## Arquitetura do Sistema
 
-- Controle de perfis e permissões
+### O microserviço é responsável por:
 
-### Organização de tarefas 
-- Nome 
-- Descrição
-- Data de criação
-- Data de agendamento
-- E-mail
-- Data de alteração
-- Status (PENDENTE, NOTIFICADO, CANCELADO)
+● Cadastro e manutenção de tarefas
 
-## 🔐 Segurança
+● Atualização de status
 
-- API protegida com Spring Security
+● Validação de permissões via JWT
 
-- Validação de autenticação via JWT obtido do microserviço ms-usuarios
+● Integração com ms-usuarios para autenticação
 
-- Controle de acesso por perfis e permissões
+### Fluxo do sistema:
 
-## Tecnologias
+Cliente → ms-usuarios (gera JWT) → ms-tarefas (valida token) → Banco de Dados
 
-- Java 17
-- Spring Boot
-- Spring Web (REST)
-- Spring Security + JWT
-- Gradle
-- Banco de Dados: MongoDB
-- Postman (testes e validação dos endpoints)
+##
 
-## Arquitetura
+## Segurança
 
-### API REST organizada em camadas:
+### A API é protegida com:
 
-- Controller (REST Controllers)
+● Spring Security
 
-- Service
+● Validação de autenticação via JWT
 
-- Business
+● Controle de acesso por perfis e permissões
 
-- Infrastructure
+● Somente usuários autenticados podem criar, atualizar ou alterar tarefas.
 
-### Segue boas práticas de Clean Code
+##
 
-### Preparada para arquitetura de microserviços
+## Documentação da API (Swagger)
 
-## Testes da API
+### A documentação da API pode ser acessada em:
 
-### Os endpoints da API REST são testados utilizando o Postman, permitindo validar:
+● Tarefas API → http://localhost:8081/swagger-ui.html
 
-- Requisições HTTP (GET, POST, PUT, DELETE)
+##
 
-- Autenticação via JWT
+## Tecnologias Utilizadas
 
-- Fluxo de autorização
+● Java 17
 
-- Respostas e códigos HTTP
+● Spring Boot
 
-## Integração entre Microserviços
+● Spring Web (REST)
 
-Esta API REST integra-se com o microserviço de usuários (ms-usuarios) para:
+● Spring Security + JWT
 
-- Validação de tokens JWT
+● Gradle
 
-- Garantir que apenas usuários autenticados possam criar, atualizar ou alterar o status de tarefas
+● Docker
 
-###  Autor
+● MongoDB
 
-- Geisivan Vitena
+## Pré-requisitos
 
-### Contato
+### Antes de executar o projeto você precisa ter instalado:
 
-- Email: gsv1205@yahoo.com
+● Java 17
 
-- LinkedIn: https://www.linkedin.com/in/geisivan-vitena-a46168246/
+● Docker
+
+● MongoDB
+
+● Gradle
+
+##
+
+## Como Executar o Projeto
+
+### Executando via Gradle:
+
+●  ./gradle bootRun
+
+### Executando via Docker:
+
+●  docker build -t ms-tarefas .
+
+### Executar o container:
+
+●  docker run -p 8081:8081 ms-tarefas
+
+### Endpoints Expostos
+
+●  Serviço	Porta
+
+●  Tarefas API	8081
+
+##
+
+### Benefícios da Arquitetura
+
+● Organização em camadas
+
+● Segurança via JWT
+
+● Escalabilidade
+
+● Integração com arquitetura de microserviços
+
+##
+
+### Melhorias Futuras
+
+● Implementar paginação e filtros
+
+● Adicionar monitoramento com Actuator
+
+● Integração com mensageria
+
+● Deploy em Cloud
+
+##
+
+## Autor
+
+Desenvolvido por **Geisivan Vitena**
+
+LinkedIn:  
+https://www.linkedin.com/in/geisivan-vitena-a46168246/
