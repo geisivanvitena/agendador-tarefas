@@ -1,14 +1,6 @@
 package com.geisivan.agendadortarefas.business.dto;
 
-import lombok.*;
-
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
-public class UsuarioDTO {
-
-    private String email;
-    private String senha;
-}
+public record UsuarioDTO(
+        String email,
+        String senha
+) { }

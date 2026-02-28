@@ -2,19 +2,34 @@ package com.geisivan.agendadortarefas.infrastructure.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-@ControllerAdvice
+@RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<String> handleResourceNotFoundException(ResourceNotFoundException exception){
-        return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
+    // Business exceptions
+    @ExceptionHandler(ApiException.class)
+    public ResponseEntity<String> handleApiException(ApiException exception) {
+        return ResponseEntity
+                .status(exception.getStatus())
+                .body(exception.getMessage());
     }
 
-    @ExceptionHandler(UnauthorizedException.class)
-    public ResponseEntity<String> handleResourceNotFoundException(UnauthorizedException exception){
-        return new ResponseEntity<>(exception.getMessage(), HttpStatus.UNAUTHORIZED);
+    // Security exceptions
+    @ExceptionHandler(AuthenticationException.class)
+    public ResponseEntity<String> handleAuthenticationException(AuthenticationException exception){
+        return ResponseEntity
+                .status(HttpStatus.UNAUTHORIZED)
+                .body("Credenciais inválidas");
+    }
+
+    // Erros inesperados
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<String> handleGenericException(Exception exception){
+        return ResponseEntity
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body("Erro interno no servidor");
     }
 }
