@@ -1,123 +1,180 @@
-# Microserviço - Agendador de Tarefas (ms-tarefas)
-## Sobre o Projeto
+# Microserviço de Tarefas (ms-tarefas)
 
-O ms-tarefas é um microserviço responsável pelo gerenciamento de tarefas dos usuários do sistema.
+### Contexto do Projeto
 
-Ele permite criar, atualizar, excluir e controlar o status das tarefas, garantindo segurança através da validação de tokens JWT emitidos pelo microserviço de usuários.
+O ms-tarefas é uma API REST desenvolvida em Java com Spring Boot e faz parte do projeto Agendador de Tarefas, construído com base em arquitetura de microserviços.
 
-Este serviço integra-se à arquitetura de microserviços do sistema e pode ser executado individualmente ou via container Docker.
+Este microserviço é responsável pelo gerenciamento das tarefas dos usuários, permitindo a criação, atualização, exclusão e controle de status.
+
+Ele atua como serviço de domínio da aplicação, concentrando exclusivamente as regras de negócio relacionadas às tarefas.
 
 ##
 
-## Arquitetura do Sistema
+### Papel na Arquitetura de Microserviços
 
-### O microserviço é responsável por:
+Na arquitetura do Agendador de Tarefas, cada microserviço possui responsabilidade única e bem definida.
+
+O ms-tarefas é responsável por:
 
 ● Cadastro e manutenção de tarefas
 
 ● Atualização de status
 
-● Validação de permissões via JWT
+● Persistência de dados no MongoDB
 
-● Integração com ms-usuarios para autenticação
+● Validação de autenticação via JWT
 
-### Fluxo do sistema:
+● Exposição de métricas e monitoramento da aplicação
+
+A autenticação é centralizada no ms-usuarios. O ms-tarefas valida o token JWT antes de processar qualquer requisição protegida.
+
+Além disso, a comunicação entre microserviços é realizada utilizando Spring Cloud OpenFeign, permitindo chamadas HTTP declarativas e desacopladas.
+
+Fluxo arquitetural:
 
 Cliente → ms-usuarios (gera JWT) → ms-tarefas (valida token) → Banco de Dados
 
+Essa separação garante:
+
+● Desacoplamento entre identidade e domínio de tarefas
+
+● Segurança centralizada
+
+● Escalabilidade independente
+
+● Organização modular da aplicação
+
 ##
 
-## Segurança
+API REST
 
-### A API é protegida com:
+O ms-tarefas expõe endpoints REST stateless utilizando:
+
+●  Métodos HTTP (GET, POST, PUT, DELETE)
+
+●  Representação de recursos em formato JSON
+
+●  Comunicação via HTTP dentro da arquitetura distribuída
+
+A aplicação segue os princípios REST e não mantém estado de sessão no servidor, utilizando JWT como mecanismo de autenticação.
+
+##
+
+Segurança
+
+A API é protegida com:
 
 ● Spring Security
 
 ● Validação de autenticação via JWT
 
-● Controle de acesso por perfis e permissões
+● Controle de acesso baseado em perfis e permissões
 
 ● Somente usuários autenticados podem criar, atualizar ou alterar tarefas.
 
 ##
 
-## Documentação da API (Swagger)
+### Observabilidade
 
-### A documentação da API pode ser acessada em:
+O microserviço utiliza Spring Boot Actuator para monitoramento e exposição de métricas operacionais.
 
-● Tarefas API → http://localhost:8081/swagger-ui.html
+Os endpoints de gerenciamento permitem:
+
+● Healthcheck da aplicação
+
+● Monitoramento de disponibilidade
+
+● Exposição de métricas
+
+● Informações do ambiente
+
+Exemplo de endpoint:
+
+http://localhost:8081/actuator/health
+
+A utilização do Actuator permite acompanhar a saúde do serviço dentro da arquitetura distribuída.
 
 ##
 
-## Tecnologias Utilizadas
+### Tecnologias Utilizadas
 
 ● Java 17
 
 ● Spring Boot
 
-● Spring Web (REST)
+● Spring Web
 
 ● Spring Security + JWT
 
-● Gradle
+● Spring Cloud OpenFeign
 
-● Docker
+● Spring Boot Actuator
+
+● Gradle
 
 ● MongoDB
 
-## Pré-requisitos
-
-### Antes de executar o projeto você precisa ter instalado:
-
-● Java 17
-
 ● Docker
-
-● MongoDB
-
-● Gradle
 
 ##
 
-## Como Executar o Projeto
+### Documentação da API
 
-### Executando via Gradle:
+A documentação da API está disponível via Swagger:
 
-●  ./gradle bootRun
+http://localhost:8081/swagger-ui.html
 
-### Executando via Docker:
+##
 
-●  docker build -t ms-tarefas .
+### Execução do Projeto
 
-### Executar o container:
+1. Execução via Gradle
+   
+./gradlew bootRun
 
-●  docker run -p 8081:8081 ms-tarefas
+2. Execução via Docker
+
+Build da imagem:
+
+docker build -t ms-tarefas .
+
+3. Executar o container:
+
+docker run -p 8081:8081 ms-tarefas
+
+##
 
 ### Endpoints Expostos
 
-●  Serviço	Porta
-
-●  Tarefas API	8081
+| Serviço    	| Porta |
+|-------------|-------|
+| Tarefas API |	8081  |
 
 ##
 
-### Benefícios da Arquitetura
+### Benefícios Arquiteturais
 
-● Organização em camadas
+● Separação clara de responsabilidades
 
-● Segurança via JWT
+● Comunicação declarativa via OpenFeign
 
-● Escalabilidade
+● Segurança centralizada via JWT
 
-● Integração com arquitetura de microserviços
+● Persistência orientada a documentos com MongoDB
+
+● Escalabilidade independente
+
+● Observabilidade integrada via Actuator
+
+● Organização modular em arquitetura de microserviços
 
 ##
 
 ### Melhorias Futuras
 
-● Implementar paginação e filtros
+● Implementação de paginação e filtros avançados
 
-● Adicionar monitoramento com Actuator
+● Estratégias de resiliência
 
 ● Integração com mensageria
 
@@ -125,9 +182,9 @@ Cliente → ms-usuarios (gera JWT) → ms-tarefas (valida token) → Banco de Da
 
 ##
 
-## Autor
+### Autor
 
-Desenvolvido por **Geisivan Vitena**
+**Geisivan Vitena**
 
 LinkedIn:  
 https://www.linkedin.com/in/geisivan-vitena-a46168246/
