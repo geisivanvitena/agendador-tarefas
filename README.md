@@ -26,6 +26,8 @@ O ms-tarefas é responsável por:
 
 ● Exposição de métricas e monitoramento da aplicação
 
+● Integração entre microsserviços via OpenFeign
+
 A autenticação é centralizada no ms-usuarios. O ms-tarefas valida o token JWT antes de processar qualquer requisição protegida.
 
 Além disso, a comunicação entre microserviços é realizada utilizando Spring Cloud OpenFeign, permitindo chamadas HTTP declarativas e desacopladas.
@@ -60,7 +62,7 @@ A aplicação segue os princípios REST e não mantém estado de sessão no serv
 
 ##
 
-Segurança
+### Segurança
 
 A API é protegida com:
 
@@ -90,9 +92,17 @@ Os endpoints de gerenciamento permitem:
 
 Exemplo de endpoint:
 
-http://localhost:8081/actuator/health
+    http://localhost:8081/actuator/health
 
 A utilização do Actuator permite acompanhar a saúde do serviço dentro da arquitetura distribuída.
+
+##
+
+### Documentação da API
+
+A documentação da API está disponível via Swagger:
+
+    http://localhost:8081/swagger-ui.html
 
 ##
 
@@ -118,37 +128,25 @@ A utilização do Actuator permite acompanhar a saúde do serviço dentro da arq
 
 ##
 
-### Documentação da API
-
-A documentação da API está disponível via Swagger:
-
-http://localhost:8081/swagger-ui.html
-
-##
-
-### Execução do Projeto
-
-1. Execução via Gradle
-   
-./gradlew bootRun
-
-2. Execução via Docker
-
-Build da imagem:
-
-docker build -t ms-tarefas .
-
-3. Executar o container:
-
-docker run -p 8081:8081 ms-tarefas
-
-##
-
 ### Endpoints Expostos
 
 | Serviço    	| Porta |
 |-------------|-------|
 | Tarefas API |	8081  |
+
+##
+
+### Execução do projeto
+
+Docker
+
+    docker build -t agendador-api .
+
+    docker run -p 8081:8081 agendador-api
+
+Gradle
+
+    ./gradlew bootRun
 
 ##
 
