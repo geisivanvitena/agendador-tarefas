@@ -2,16 +2,16 @@ package com.geisivan.agendadortarefas.infrastructure.security;
 
 import com.geisivan.agendadortarefas.business.dto.UsuarioDTO;
 import com.geisivan.agendadortarefas.infrastructure.security.client.UsuarioClient;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class UserDetailsServiceImpl {
 
-    @Autowired
-    private UsuarioClient usuarioClient;
+    private final UsuarioClient usuarioClient;
 
     public UserDetails carregarDadosUsuario(String email, String token){
 
