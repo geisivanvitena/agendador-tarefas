@@ -1,5 +1,7 @@
 # Microserviço de Tarefas (ms-tarefas)
 
+<div align="center">
+
 ![Build Status](https://img.shields.io/badge/build-passing-brightgreen)
 ![Java 17](https://img.shields.io/badge/java-17-brightgreen)
 ![Spring Boot 3.3.5](https://img.shields.io/badge/spring_boot-3.3.5-brightgreen)
@@ -12,6 +14,7 @@
 [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=geisivanvitena_agendador-tarefas&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=geisivanvitena_agendador-tarefas)
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=geisivanvitena_agendador-tarefas&metric=code_smells)](https://sonarcloud.io/dashboard?id=geisivanvitena_agendador-tarefas)
 [![Duplications](https://sonarcloud.io/api/project_badges/measure?project=geisivanvitena_agendador-tarefas&metric=duplicated_lines_density)](https://sonarcloud.io/dashboard?id=geisivanvitena_agendador-tarefas)
+</div>
 
 ---
 
@@ -19,9 +22,15 @@
 
 O **ms-tarefas** é uma API REST desenvolvida em **Java com Spring Boot** e faz parte do projeto **Agendador de Tarefas**, construído com base em arquitetura de microserviços.
 
-Este microserviço é responsável pelo gerenciamento das tarefas dos usuários, permitindo a criação, atualização, exclusão e controle de status.
+**Este microserviço é responsável por:** 
 
-Ele atua como serviço de domínio da aplicação, concentrando exclusivamente as regras de negócio relacionadas às tarefas.
+- Criar e gerenciar tarefas dos usuários
+- Atualizar status das tarefas
+- Persistir dados no MongoDB
+- Validar autenticação via **JWT** emitido pelo **ms-usuario**
+- Integrar-se com outros microserviços
+
+O ms-tarefas **depende do ms-usuarios** para autenticação. Todos os endpoints protegidos exigem que o cliente envie o token JWT obtido do ms-usuarios.
 
 O microserviço está **dockerizado**, permitindo execução isolada, portabilidade e integração rápida com o ecossistema de microserviços.
 
@@ -29,127 +38,100 @@ O microserviço está **dockerizado**, permitindo execução isolada, portabilid
 
 **Arquitetura do Sistema**
 
-O sistema Agendador de Tarefas é composto por múltiplos microserviços especializados que trabalham de forma independente.
+O sistema **Agendador de Tarefas** é composto por múltiplos microserviços especializados que trabalham de forma independente.
 
 O **ms-tarefas** é responsável pelo gerenciamento das tarefas dos usuários e se integra com outros serviços da arquitetura.
 
 **Diagrama da Arquitetura**
 
-<img src="images/diagrama-arquitetura.png" alt="Diagrama da Arquitetura" width="700px">
+<div align="center">
+  <img src="images/diagrama-arquitetura.png" alt="Diagrama da Arquitetura" width="700px">
+</div>
 
 **Descrição do fluxo**
 
-1. O cliente realiza autenticação através do ms-usuarios.
+1. Cliente realiza autenticação através do **ms-usuarios**.
+2. **ms-usuarios** gera um token JWT.
+3. Cliente envia requisições autenticadas para o **BFF**.
+4. BFF encaminha requisições para o **ms-tarefas**.
+5. **ms-tarefas** valida o token JWT junto ao ms-usuarios.
+6. Tarefas são persistidas no **MongoDB**.
+7. **ms-notificacao** é acionado para envio de notificações, se necessário.
 
-2. O ms-usuarios gera um token JWT.
-
-3. O cliente envia requisições autenticadas para o BFF.
-
-4. O BFF encaminha as requisições para o ms-tarefas.
-
-5. O ms-tarefas valida o token JWT antes de processar a requisição.
-
-6. As tarefas são persistidas no MongoDB.
-
-7. O ms-notificacao é acionado para envio de notificações.
-
-**Essa arquitetura garante:**
+**Benefícios dessa arquitetura:**
 
 - Separação clara de responsabilidades
-
 - Segurança centralizada
-
 - Escalabilidade independente
-
 - Organização modular da aplicação
-
----
-
-### Papel na Arquitetura de Microserviços
-
-Na arquitetura do Agendador de Tarefas, cada microserviço possui responsabilidade única e bem definida.
-
-O **ms-tarefas** é responsável por:
-
-- Cadastro e manutenção de tarefas
-
-- Atualização de status
-
-- Persistência de dados no MongoDB
-
-- Validação de autenticação via JWT
-
-- Exposição de métricas e monitoramento da aplicação
-
-- Integração entre microsserviços via OpenFeign
-
-A autenticação é centralizada no **ms-usuarios**. O **ms-tarefas** valida o token JWT antes de processar qualquer requisição protegida.
-
-Além disso, a comunicação entre microserviços é realizada utilizando **Spring Cloud OpenFeign**, permitindo chamadas HTTP declarativas e desacopladas.
-
----
-
-API REST
-
-O **ms-tarefas** expõe endpoints REST **stateless** utilizando:
-
-- Métodos HTTP (GET, POST, PUT, DELETE)
-
-- Representação de recursos em formato JSON
-
-- Comunicação via HTTP dentro da arquitetura distribuída
-
-A aplicação segue os princípios REST e não mantém estado de sessão no servidor, utilizando JWT como mecanismo de autenticação.
 
 ---
 
 #### Integração com OpenFeign
 
-O **ms-tarefas** utiliza **OpenFeign** para comunicação declarativa entre microserviços, permitindo:
+O **ms-tarefas** utiliza **Spring Cloud OpenFeign** para comunicação declarativa entre microserviços.
+
+**Essa abordagem garante:**
 
 - Redução de código boilerplate
 - Padronização de chamadas HTTP
 - Facilidade na manutenção de endpoints remotos
+- Comunicação direta com o **ms-usuarios** para validação de token
 
 ---
 
 ### Segurança
 
-A API utiliza **Spring Security** com autenticação baseada em **JWT**.
+A API utiliza **Spring Security** com autenticação baseada em **JWT** fornecido pelo ms-usuarios.
 
 **Principais mecanismos de segurança:**
 
-- Autenticação baseada em JSON Web Token
-
-- Integração com o ms-usuarios
-
+- Autenticação baseada em JWT do ms-usuarios
+- Validação de token antes de processar requisições
 - Controle de acesso baseado em autenticação
-
 - Proteção de endpoints sensíveis
 
-Somente usuários autenticados podem criar, atualizar ou alterar tarefas.
+Somente usuários autenticados podem gerenciar tarefas.
 
 ---
 
 ### Observabilidade
 
-O microserviço utiliza **Spring Boot Actuator** para monitoramento e exposição de métricas operacionais.
+O microserviço utiliza **Spring Boot Actuator** para monitoramento e exposição de métricas.
 
-**Os endpoints de gerenciamento permitem:**
+**Endpoints disponíveis:**
 
 - Healthcheck da aplicação
-
 - Monitoramento de disponibilidade
-
 - Exposição de métricas
-
 - Informações do ambiente
 
-**Exemplo de endpoint:**
+**Exemplo:**
 
     http://localhost:8081/actuator/health
 
 A utilização do Actuator permite acompanhar a saúde do serviço dentro da arquitetura distribuída.
+
+---
+
+### API REST
+
+O **ms-tarefas** expõe endpoints REST **stateless**:
+
+- Métodos HTTP: GET, POST, PUT, PATCH, DELETE
+- Representação de recursos em JSON
+- Comunicação HTTP dentro da arquitetura distribuída
+
+**Endpoints principais:**
+
+| Método | Endpoint                                   | Descrição                                 |
+|--------|--------------------------------------------|-------------------------------------------|
+| POST   | /tarefas                                   | Criar nova tarefa                          |
+| GET    | /tarefas                                   | Listar tarefas do usuário autenticado      |
+| GET    | /tarefas/periodo                           | Listar tarefas por período                 |
+| PUT    | /tarefas?id={id}                           | Atualizar dados da tarefa                  |
+| PATCH  | /tarefas?id={id}&status={status}           | Atualizar status da tarefa                 |
+| DELETE | /tarefas?id={id}                           | Deletar tarefa                             |
 
 ---
 
@@ -164,30 +146,14 @@ A documentação da API está disponível via **Swagger:**
 ### Tecnologias Utilizadas
 
 - Java 17
-
 - Spring Boot
-
 - Spring Web
-
 - Spring Security + JWT
-
 - Spring Cloud OpenFeign
-
 - Spring Boot Actuator
-
 - Gradle
-
 - MongoDB
-
 - Docker
-
----
-
-### Endpoints Expostos
-
-| Serviço    	| Porta |
-|-------------|-------|
-| Tarefas API |	8081  |
 
 ---
 
@@ -208,19 +174,12 @@ A documentação da API está disponível via **Swagger:**
 ### Benefícios Arquiteturais
 
 - Separação clara de responsabilidades
-
 - Comunicação declarativa via OpenFeign
-
-- Segurança centralizada via JWT
-
+- Segurança centralizada via JWT emitido pelo ms-usuarios
 - Persistência orientada a documentos com MongoDB
-
 - Escalabilidade independente
-
-- Containerização com Docker garantindo portabilidade e facilidade de deploy
-
+- Containerização com Docker
 - Observabilidade integrada via Actuator
-
 - Organização modular em arquitetura de microserviços
 
 ---
@@ -228,13 +187,9 @@ A documentação da API está disponível via **Swagger:**
 ### Melhorias Futuras
 
 - Implementação de paginação e filtros avançados
-
 - Estratégias de resiliência
-
 - Integração com mensageria (RabbitMQ ou Kafka)
-
 - Implementação de testes automatizados (unitários e de integração)
-
 - Deploy em ambiente Cloud
 
 ---
