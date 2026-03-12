@@ -7,6 +7,12 @@
 ![Dependências Seguras](https://img.shields.io/badge/dependencies-secure-brightgreen)
 ![GitHub Actions](https://github.com/geisivanvitena/agendador-tarefas/actions/workflows/gradle.yml/badge.svg)
 
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=geisivanvitena_agendador-tarefas&metric=alert_status)](https://sonarcloud.io/dashboard?id=geisivanvitena_agendador-tarefas)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=geisivanvitena_agendador-tarefas&metric=bugs)](https://sonarcloud.io/dashboard?id=geisivanvitena_agendador-tarefas)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=geisivanvitena_agendador-tarefas&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=geisivanvitena_agendador-tarefas)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=geisivanvitena_agendador-tarefas&metric=code_smells)](https://sonarcloud.io/dashboard?id=geisivanvitena_agendador-tarefas)
+[![Duplications](https://sonarcloud.io/api/project_badges/measure?project=geisivanvitena_agendador-tarefas&metric=duplicated_lines_density)](https://sonarcloud.io/dashboard?id=geisivanvitena_agendador-tarefas)
+
 ---
 
 ### Contexto do Projeto
@@ -29,7 +35,7 @@ O **ms-tarefas** é responsável pelo gerenciamento das tarefas dos usuários e 
 
 **Diagrama da Arquitetura**
 
-![Diagrama da Arquitetura](images/diagrama-arquitetura.png)
+<img src="images/diagrama-arquitetura.png" alt="Diagrama da Arquitetura" width="700px">
 
 **Descrição do fluxo**
 
