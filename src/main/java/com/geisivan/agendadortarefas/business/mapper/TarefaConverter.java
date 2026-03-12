@@ -9,11 +9,11 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface TarefaConverter {
 
-    TarefaEntity paraTarefaEntity(TarefasDTO TarefasDTO);
+    TarefaEntity paraTarefaEntity(TarefasDTO dto);
 
-    TarefasDTO paraTarefasDTO(TarefaEntity tarefaEntity);
+    TarefasDTO paraTarefasDTO(TarefaEntity entity);
 
-    List<TarefaEntity> paraListaTarefaEntity(List<TarefasDTO> listaTarefasDTO);
+    List<TarefaEntity> paraListaTarefaEntity(List<TarefasDTO> listaDTO);
 
-    List<TarefasDTO> paraListaTarefasDTO(List<TarefaEntity> listaTarefaEntity);
+    List<TarefasDTO> paraListaTarefasDTO(List<TarefaEntity> listaEntity);
 }

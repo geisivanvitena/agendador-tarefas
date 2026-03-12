@@ -2,8 +2,6 @@ package com.geisivan.agendadortarefas.business.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.geisivan.agendadortarefas.infrastructure.enums.StatusNotificacaoEnum;
-
-import java.time.Instant;
 import java.time.LocalDateTime;
 
 public record TarefasDTO(
