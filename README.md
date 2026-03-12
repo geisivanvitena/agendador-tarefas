@@ -21,6 +21,44 @@ O microserviço está **dockerizado**, permitindo execução isolada, portabilid
 
 ---
 
+**Arquitetura do Sistema**
+
+O sistema Agendador de Tarefas é composto por múltiplos microserviços especializados que trabalham de forma independente.
+
+O **ms-tarefas** é responsável pelo gerenciamento das tarefas dos usuários e se integra com outros serviços da arquitetura.
+
+**Diagrama da Arquitetura**
+
+![Diagrama da Arquitetura](images/diagrama-arquitetura.png)
+
+**Descrição do fluxo**
+
+1. O cliente realiza autenticação através do ms-usuarios.
+
+2. O ms-usuarios gera um token JWT.
+
+3. O cliente envia requisições autenticadas para o BFF.
+
+4. O BFF encaminha as requisições para o ms-tarefas.
+
+5. O ms-tarefas valida o token JWT antes de processar a requisição.
+
+6. As tarefas são persistidas no MongoDB.
+
+7. O ms-notificacao é acionado para envio de notificações.
+
+**Essa arquitetura garante:**
+
+- Separação clara de responsabilidades
+
+- Segurança centralizada
+
+- Escalabilidade independente
+
+- Organização modular da aplicação
+
+---
+
 ### Papel na Arquitetura de Microserviços
 
 Na arquitetura do Agendador de Tarefas, cada microserviço possui responsabilidade única e bem definida.
@@ -42,20 +80,6 @@ O **ms-tarefas** é responsável por:
 A autenticação é centralizada no **ms-usuarios**. O **ms-tarefas** valida o token JWT antes de processar qualquer requisição protegida.
 
 Além disso, a comunicação entre microserviços é realizada utilizando **Spring Cloud OpenFeign**, permitindo chamadas HTTP declarativas e desacopladas.
-
-**Fluxo arquitetural:**
-
-    Cliente → ms-usuarios (gera JWT) → ms-tarefas (valida token) → Banco de Dados
-
-**Essa separação garante:**
-
-- Desacoplamento entre identidade e domínio de tarefas
-
-- Segurança centralizada
-
-- Escalabilidade independente
-
-- Organização modular da aplicação
 
 ---
 
@@ -85,15 +109,19 @@ O **ms-tarefas** utiliza **OpenFeign** para comunicação declarativa entre micr
 
 ### Segurança
 
-**A API é protegida com:**
+A API utiliza **Spring Security** com autenticação baseada em **JWT**.
 
-- Spring Security
+**Principais mecanismos de segurança:**
 
-- Validação de autenticação via JWT
+- Autenticação baseada em JSON Web Token
 
-- Controle de acesso baseado em perfis e permissões
+- Integração com o ms-usuarios
 
-- Somente usuários autenticados podem criar, atualizar ou alterar tarefas.
+- Controle de acesso baseado em autenticação
+
+- Proteção de endpoints sensíveis
+
+Somente usuários autenticados podem criar, atualizar ou alterar tarefas.
 
 ---
 
